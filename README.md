@@ -1,3 +1,5 @@
+# Initial thoughts when starting
+
 ## Things needed
 - map of dash representation of numbers to integer
 - text file with a couple of account numbers to check against
