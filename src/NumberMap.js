@@ -61,3 +61,17 @@ const numberMap = {
   " _ | ||_|   ": 0
 }
 
+
+module.exports = {
+  zero, 
+  one, 
+  two, 
+  three,
+  four,
+  five,
+  six,
+  seven,
+  eight,
+  nine,
+  numberMap
+};
