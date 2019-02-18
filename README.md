@@ -1,4 +1,8 @@
 # Initial thoughts when starting
+- To me the first problem is transposing four horizontal lines of 27 into 9 lines of 12 based on the index of the line (segments of three)
+- The second problem is reading a file in line by line and keeping track of segments of four. Once this is accomplished, the first method can be used to create 3x3 numbers from these sections (3x4 if you count the blank line)
+- lastly, the 3x3 numbers will need to be converted to integers. This should be easily accomplished with a map using the number as string as a key and the integer as a value
+
 
 ## Things needed
 - map of dash representation of numbers to integer
