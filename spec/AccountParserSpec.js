@@ -1,5 +1,5 @@
 var AccountParser = require('../src/AccountParser.js');
-var numbers = require('../src/NumberMap')
+var numbers = require('../src/NumberUtils')
 describe("Account Parser", () => {
 
   it("chunks a line into sets of three", () => {
