@@ -14,7 +14,7 @@
 ## Steps Taken
 - built out what each number looks like as string
 - built number map in file for comparison
-  - this is needed and also will give me a better feel for how the linear representation of the number will be
+  - I knew this was needed and it also gave me a better feel for the linear representation of the numbers
 - created a method to chunk a line into three parts
   - after writing a test realized this should be able to take an array so it can chunk four lines into the same array
   - after writing a test to parse four lines that created actual numbers I realized I was concating them backward
