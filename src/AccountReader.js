@@ -1,12 +1,10 @@
 const fs = require('fs');
 const readline = require('readline');
 const AccountParser = require('./AccountParser')
-var NumberUtils = require('./NumberUtils')
+var { numberMap } = require('./NumberUtils')
 
 class AccountReader {
   constructor() {
-    this.accountNumber = [];
-    this.accounts = []
     this.accountParser = new AccountParser();
   }
 
@@ -17,46 +15,36 @@ class AccountReader {
       input: fileStream,
       crlfDelay: Infinity
     });
+    const {chunkLineIntoThrees} = this.accountParser;
+
+    let currentAccount = []
+    let accounts = []
 
     let counter = 1
+    // TODO: refactor this out into different method
     for await (const line of rl) {
       if(counter < 4){
-        this._createNumbersFromRows(line, counter)
+        currentAccount = chunkLineIntoThrees(line, currentAccount)
         counter += 1
       } else {
-        const number = this._convertStringsToNumbers();
-        this.accounts = [...this.accounts, number]
+        const number = this._convertStringsToNumbers(currentAccount);
+        accounts = [...accounts, number]
+        currentAccount = []
         counter = 1
       }
 
     }
-    return this.accounts;
+    return accounts;
   }
 
-  _createNumbersFromRows(line, counter) {
-    const {chunkLineIntoThrees} = this.accountParser;
-    switch(counter) {
-      case 1:
-         this.accountNumber = chunkLineIntoThrees(line)
-        break;
-      case 2:
-        this.accountNumber = chunkLineIntoThrees(line, this.accountNumber)
-        break;
-      case 3:
-        this.accountNumber = chunkLineIntoThrees(line, this.accountNumber)
-        break;
-      case 4:
-        this.accountNumber = chunkLineIntoThrees(line, this.accountNumber)
-        break;
-      default:
-        return
-    }
-  }
-
-  _convertStringsToNumbers() {
-    const {numberMap} = NumberUtils;
-    return this.accountNumber.map(str => numberMap[str])
+  _convertStringsToNumbers(currentAccount) {
+    return currentAccount.map(str => numberMap[str]).join("")
   }
 }
+
+const reader = new AccountReader();
+const result = reader.processLineByLine('Accounts.txt')
+
+result.then(data => console.log(data)).catch(e => console.log("ERROR: ", e))
 
 module.exports = AccountReader;
