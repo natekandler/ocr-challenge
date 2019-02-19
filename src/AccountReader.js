@@ -22,13 +22,16 @@ class AccountReader {
 
     let counter = 1
     // TODO: refactor this out into different method
-    for await (const line of rl) {
+    for await (let line of rl) {
+     
       if(counter < 4){
+        if(counter === 1 && Boolean(line) === false){line = "                           "}
         currentAccount = chunkLineIntoThrees(line, currentAccount)
         counter += 1
       } else {
-        const number = this._convertStringsToNumbers(currentAccount);
+        let number = this._convertStringsToNumbers(currentAccount);
         accounts = [...accounts, number]
+        //accounts = [...accounts, currentAccount]
         currentAccount = []
         counter = 1
       }

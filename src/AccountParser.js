@@ -7,7 +7,7 @@ class AccountParser {
 
     pairs.forEach((item, index) => {
       const itemAtIndex = arr[index] || ""
-      arr[index] = itemAtIndex.concat(line.slice(item[0], item[1]))
+      arr[index] = itemAtIndex.concat(line.slice(item[0], item[1])) 
 
     })
     return arr;
