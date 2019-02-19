@@ -42,9 +42,4 @@ class AccountReader {
   }
 }
 
-const reader = new AccountReader();
-const result = reader.processLineByLine('Accounts.txt')
-
-result.then(data => console.log(data)).catch(e => console.log("ERROR: ", e))
-
 module.exports = AccountReader;

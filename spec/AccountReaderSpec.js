@@ -3,7 +3,15 @@ var {numberMap} = require('../src/NumberUtils');
 
 describe("Account Reader", () => {
 
-  describe("processLineByLine", ()=>{})
+  describe("processLineByLine", ()=>{
+    it("should parse file correctly", () => {
+      const accountReader = new AccountReader()
+      accountReader.processLineByLine('Accounts.txt')
+        .then( result => {
+          expect(result).toEqual([ '123456789', '123456789', '123456789' ])
+        })
+    })
+  })
  
   
 
