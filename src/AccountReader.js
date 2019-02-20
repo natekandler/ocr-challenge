@@ -9,35 +9,40 @@ class AccountReader {
   }
 
   async processLineByLine(filename) {
+    const { chunkLineIntoThrees } = this.accountParser;
     const fileStream = fs.createReadStream(filename);
   
     const rl = readline.createInterface({
       input: fileStream,
       crlfDelay: Infinity
     });
-    const {chunkLineIntoThrees} = this.accountParser;
+    
 
     let currentAccount = []
     let accounts = []
-
     let counter = 1
-    // TODO: refactor this out into different method
+
     for await (let line of rl) {
-     
       if(counter < 4){
-        if(counter === 1 && Boolean(line) === false){line = "                           "}
-        currentAccount = chunkLineIntoThrees(line, currentAccount)
-        counter += 1
+        line = this._checkForEmptyFirstLine(line, counter);
+        currentAccount = chunkLineIntoThrees(line, currentAccount);
+        counter += 1;
       } else {
         let number = this._convertStringsToNumbers(currentAccount);
-        accounts = [...accounts, number]
-        //accounts = [...accounts, currentAccount]
-        currentAccount = []
-        counter = 1
+        accounts = [...accounts, number];
+        currentAccount = [];
+        counter = 1;
       }
 
     }
     return accounts;
+  }
+
+  _checkForEmptyFirstLine(line, counter) {
+    if(counter === 1 && Boolean(line) === false){
+      return "                           ";
+    }
+    return line;
   }
 
   _convertStringsToNumbers(currentAccount) {
