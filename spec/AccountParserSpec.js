@@ -5,7 +5,7 @@ describe("Account Parser", () => {
   it("chunks a line into sets of three", () => {
     const parser = new AccountParser();
     const line = "abcdefghijklmnopqrstuvwxyz1"
-    const result = parser.chunkLineIntoThrees(line)
+    const result = parser.chunkLine(line)
     const expected = ["abc", "def", "ghi", "jkl", "mno", "pqr", "stu", "vwx", "yz1"]
     expect(result).toEqual(expected);
   });
@@ -14,8 +14,8 @@ describe("Account Parser", () => {
     const parser = new AccountParser();
     const line = "abcdefghijklmnopqrstuvwxyz1";
     const line2 = "123456789123456789123456789";
-    const firstPass = parser.chunkLineIntoThrees(line);
-    const result = parser.chunkLineIntoThrees(line2, firstPass);
+    const firstPass = parser.chunkLine(line);
+    const result = parser.chunkLine(line2, firstPass);
     const expected = ["abc123", "def456", "ghi789", "jkl123", "mno456", "pqr789", "stu123", "vwx456", "yz1789"]
 
     expect(result).toEqual(expected);
@@ -29,9 +29,9 @@ describe("Account Parser", () => {
     const {one, two, three, four, five, six, seven, eight, nine} = numbers;
   
     const parser = new AccountParser();
-    const firstPass = parser.chunkLineIntoThrees(line1);
-    const secondPass = parser.chunkLineIntoThrees(line2, firstPass)
-    const result = parser.chunkLineIntoThrees(line3, secondPass)
+    const firstPass = parser.chunkLine(line1);
+    const secondPass = parser.chunkLine(line2, firstPass)
+    const result = parser.chunkLine(line3, secondPass)
     const expected = [one, two, three, four, five, six, seven, eight, nine]
     expect(result).toEqual(expected)
   })

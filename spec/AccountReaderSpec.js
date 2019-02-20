@@ -3,11 +3,11 @@ var {numberMap} = require('../src/NumberUtils');
 
 describe("Account Reader", () => {
 
-  describe("processLineByLine", ()=>{
+  describe("processAccountNumberFile", ()=>{
     it("should parse a row of 1s", () => {
       const accountReader = new AccountReader()
       const expected = ['111111111']
-      accountReader.processLineByLine('testFixtures/ones.txt')
+      accountReader.processAccountNumberFile('testFixtures/ones.txt')
         .then( result => {
           expect(result).toEqual(expected)
         })
@@ -16,7 +16,7 @@ describe("Account Reader", () => {
 
     it("should parse file correctly", () => {
       const accountReader = new AccountReader()
-      accountReader.processLineByLine('testFixtures/Accounts.txt')
+      accountReader.processAccountNumberFile('testFixtures/Accounts.txt')
         .then( result => {
           expect(result).toEqual([ '123456789', '123456789', '123456789' ])
         })
@@ -29,7 +29,7 @@ describe("Account Reader", () => {
                         '33333333','444444444','55555555',
                         '66666666','77777777','88888888',
                         '99999999']
-      accountReader.processLineByLine('testFixtures/caseOne.txt')
+      accountReader.processAccountNumberFile('testFixtures/caseOne.txt')
         .then( result => {
           expect(result).toEqual(expected)
         })

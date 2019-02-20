@@ -8,8 +8,8 @@ class AccountReader {
     this.accountParser = new AccountParser();
   }
 
-  async processLineByLine(filename) {
-    const { chunkLineIntoThrees } = this.accountParser;
+  async processAccountNumberFile(filename) {
+    const { chunkLine } = this.accountParser;
     const fileStream = fs.createReadStream(filename);
   
     const rl = readline.createInterface({
@@ -17,7 +17,6 @@ class AccountReader {
       crlfDelay: Infinity
     });
     
-
     let currentAccount = []
     let accounts = []
     let counter = 1
@@ -25,7 +24,7 @@ class AccountReader {
     for await (let line of rl) {
       if(counter < 4){
         line = this._checkForEmptyFirstLine(line, counter);
-        currentAccount = chunkLineIntoThrees(line, currentAccount);
+        currentAccount = chunkLine(line, currentAccount);
         counter += 1;
       } else {
         let number = this._convertStringsToNumbers(currentAccount);
@@ -40,7 +39,7 @@ class AccountReader {
 
   _checkForEmptyFirstLine(line, counter) {
     if(counter === 1 && Boolean(line) === false){
-      return "                           ";
+      return " ".repeat(27);
     }
     return line;
   }
