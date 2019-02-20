@@ -22,18 +22,20 @@ class AccountReader {
     let counter = 1
 
     for await (let line of rl) {
-      if(counter < 4){
+      if(counter < 3){
         line = this._checkForEmptyFirstLine(line, counter);
         currentAccount = chunkLine(line, currentAccount);
-        
         counter += 1;
-      } else {
-        let number = this._convertStringsToNumbers(currentAccount);
+        
+      } else if (counter === 3) {
+        currentAccount = chunkLine(line, currentAccount);
+        let number =  await this._convertStringsToNumbers(currentAccount);
         accounts = [...accounts, number];
         currentAccount = [];
+        counter += 1;
+      } else {
         counter = 1;
       }
-
     }
     return accounts;
   }
