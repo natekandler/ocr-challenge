@@ -25,6 +25,7 @@ class AccountReader {
       if(counter < 4){
         line = this._checkForEmptyFirstLine(line, counter);
         currentAccount = chunkLine(line, currentAccount);
+        
         counter += 1;
       } else {
         let number = this._convertStringsToNumbers(currentAccount);
@@ -45,7 +46,7 @@ class AccountReader {
   }
 
   _convertStringsToNumbers(currentAccount) {
-    return currentAccount.map(str => numberMap[str]).join("")
+    return currentAccount.map(str => numberMap[str])
   }
 }
 
