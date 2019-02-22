@@ -24,6 +24,10 @@ class AccountReader {
     for await (let line of rl) {
       switch(counter) {
         case 1:
+          line = this._checkForEmptyFirstLine(line, counter);
+          currentAccount = this._appendToCurrentAccount(currentAccount, counter, line, chunkLine);
+          counter += 1;
+          break
         case 2:
           currentAccount = this._appendToCurrentAccount(currentAccount, counter, line, chunkLine);
           counter += 1;
@@ -41,8 +45,7 @@ class AccountReader {
     return accounts;
   }
 
-  _appendToCurrentAccount(currentAccount, counter, line, chunkLine){
-    line = this._checkForEmptyFirstLine(line, counter);
+  _appendToCurrentAccount(currentAccount, line, chunkLine){
     currentAccount = chunkLine(line, currentAccount);
     return currentAccount
   }
@@ -52,8 +55,9 @@ class AccountReader {
     return  [...accounts, number];
   }
 
-  _checkForEmptyFirstLine(line, counter) {
-    if(counter === 1 && Boolean(line) === false){
+  _checkForEmptyFirstLine(line) {
+    if(Boolean(line) === false){
+      // return empty line of expected input length
       return " ".repeat(27);
     }
     return line;
