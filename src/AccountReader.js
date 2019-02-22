@@ -22,22 +22,34 @@ class AccountReader {
     let counter = 1
 
     for await (let line of rl) {
-      if(counter < 3){
-        line = this._checkForEmptyFirstLine(line, counter);
-        currentAccount = chunkLine(line, currentAccount);
-        counter += 1;
-        
-      } else if (counter === 3) {
-        currentAccount = chunkLine(line, currentAccount);
-        let number =  await this._convertStringsToNumbers(currentAccount);
-        accounts = [...accounts, number];
-        currentAccount = [];
-        counter += 1;
-      } else {
-        counter = 1;
+      switch(counter) {
+        case 1:
+        case 2:
+          currentAccount = this._appendToCurrentAccount(currentAccount, counter, line, chunkLine);
+          counter += 1;
+          break;
+        case 3:
+          currentAccount = this._appendToCurrentAccount(currentAccount, counter, line, chunkLine);
+          accounts = this._updateAccounts(currentAccount, accounts)
+          currentAccount = []
+          counter += 1;
+          break;
+        default:
+          counter = 1;
       }
     }
     return accounts;
+  }
+
+  _appendToCurrentAccount(currentAccount, counter, line, chunkLine){
+    line = this._checkForEmptyFirstLine(line, counter);
+    currentAccount = chunkLine(line, currentAccount);
+    return currentAccount
+  }
+
+  _updateAccounts(currentAccount, accounts) {
+    let number =  this._convertStringsToNumbers(currentAccount);
+    return  [...accounts, number];
   }
 
   _checkForEmptyFirstLine(line, counter) {
